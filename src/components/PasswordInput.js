@@ -14,7 +14,7 @@ function PasswordInput({ value, onChange, error, showPassword, togglePasswordVis
           name="password"
           value={value}
           onChange={onChange}
-          placeholder="Min 6 char"
+          placeholder="Min 8 char"
           required
           aria-describedby="password-error"
         />

@@ -22,7 +22,7 @@ const errorMessages = {
   loginId: 'Login ID is required',
   password: {
     required: 'Password is required',
-    minLength: 'Password must be at least 6 characters',
+    minLength: 'Password must be at least 8 characters',
   },
   email: {
     required: 'Email is required',
@@ -64,7 +64,7 @@ function App() {
       }
       if (!formData.password) {
         validationErrors.password = errorMessages.password.required;
-      } else if (formData.password.length < 6) {
+      } else if (formData.password.length < 8) {
         validationErrors.password = errorMessages.password.minLength;
       }
     } else {
@@ -75,7 +75,7 @@ function App() {
       }
       if (!formData.password) {
         validationErrors.password = errorMessages.password.required;
-      } else if (formData.password.length < 6) {
+      } else if (formData.password.length < 8) {
         validationErrors.password = errorMessages.password.minLength;
       }
       if (!formData.lastName) {
