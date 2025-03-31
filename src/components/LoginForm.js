@@ -1,6 +1,6 @@
-import React from 'react';
-import { FaGoogle, FaGithub, FaLinkedin, FaShieldAlt } from 'react-icons/fa';
-import PasswordInput from './PasswordInput';
+import React from "react";
+import { FaGoogle, FaGithub, FaLinkedin, FaShieldAlt } from "react-icons/fa";
+import PasswordInput from "./PasswordInput";
 
 function LoginForm({ formData, handleChange, errors, showPassword, togglePasswordVisibility }) {
   return (
@@ -16,7 +16,7 @@ function LoginForm({ formData, handleChange, errors, showPassword, togglePasswor
             name="loginId"
             value={formData.loginId}
             onChange={handleChange}
-            placeholder="juanandres"
+            placeholder="cam"
             required
             aria-describedby="loginId-error"
           />
