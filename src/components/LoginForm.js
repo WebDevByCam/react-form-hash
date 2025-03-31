@@ -16,7 +16,7 @@ function LoginForm({ formData, handleChange, errors, showPassword, togglePasswor
             name="loginId"
             value={formData.loginId}
             onChange={handleChange}
-            placeholder="cam"
+            placeholder="juanandres"
             required
             aria-describedby="loginId-error"
           />
