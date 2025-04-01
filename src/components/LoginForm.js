@@ -22,7 +22,7 @@ function LoginForm({
                         name="loginId"
                         value={formData.loginId}
                         onChange={handleChange}
-                        placeholder="JhonDev"
+                        placeholder="Juanandres"
                         required
                         aria-describedby="loginId-error"
                     />
