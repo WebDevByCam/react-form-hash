@@ -15,7 +15,7 @@ function SignUpForm({ formData, handleChange, errors, showPassword, togglePasswo
             name="email"
             value={formData.email}
             onChange={handleChange}
-            placeholder="cam@upstrategy.com.co"
+            placeholder="camdev@upstrategy.com.co"
             required
             aria-describedby="email-error"
           />
