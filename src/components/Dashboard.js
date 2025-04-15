@@ -11,10 +11,10 @@ function Dashboard() {
 
   return (
     <div className="container">
-      <h1>Welcome to Your Dashboard!</h1>
-      <p>You have successfully logged in.</p>
+      <h1>Bienvenido al Futuro del Marketing!</h1>
+      <p>Has ingresado correctamente al mejor Software del mundo.</p>
       <button className="submit-btn" onClick={handleLogout}>
-        LOG OUT
+        Cerrar Sesion
       </button>
     </div>
   );

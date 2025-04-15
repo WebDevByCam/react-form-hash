@@ -5,7 +5,7 @@ function PasswordInput({ value, onChange, error, showPassword, togglePasswordVis
   return (
     <div className="form-group">
       <label htmlFor="password">
-        Password <span className="required">*</span>
+        Contraseña <span className="required">*</span>
       </label>
       <div className="input-wrapper">
         <input
@@ -14,16 +14,12 @@ function PasswordInput({ value, onChange, error, showPassword, togglePasswordVis
           name="password"
           value={value}
           onChange={onChange}
-          placeholder="Min 8 char"
+          placeholder="Mínimo 8 caracteres"
           required
           aria-describedby="password-error"
         />
-        <span
-          className="icon eye"
-          onClick={togglePasswordVisibility}
-          aria-label={showPassword ? 'Hide password' : 'Show password'}
-        >
-          {showPassword ? <FaEye /> : <FaEyeSlash />}
+        <span onClick={togglePasswordVisibility} className="toggle-password">
+          {showPassword ? <FaEyeSlash /> : <FaEye />}
         </span>
       </div>
       {error && <span className="error" id="password-error">{error}</span>}
