@@ -31,15 +31,16 @@ function SignUpForm({ formData, handleChange, errors, showPassword, togglePasswo
     'Chile',
     'Perú',
     'Estados Unidos',
+    'Canada',
     'Otros'
   ];
 
   const participantOptions = [
     'Solo yo',
-    'De 2 a 9',
-    'De 10 a 19',
-    'De 20 a 49',
-    'De 50 a 300',
+    'De 2 a 10',
+    'De 11 a 20',
+    'De 21 a 50',
+    'De 51 a 300',
     'Más de 300'
   ];
 
@@ -51,20 +52,56 @@ function SignUpForm({ formData, handleChange, errors, showPassword, togglePasswo
         const users = JSON.parse(localStorage.getItem('users') || '[]');
         const companyExists = users.some((user) => user.companyId === formData.companyId);
         if (!companyExists) {
-          validationErrors.companyId = 'El código de empresa no existe';
+          validationErrors.companyId = 'Este código de empresa no existe';
+        } else {
+          const company = users.find((user) => user.companyId === formData.companyId);
+          if (company.status === 'pending') {
+            validationErrors.companyId = 'La empresa asociada a este código está pendiente de aprobación. No puedes unirte hasta que sea aprobada.';
+          }
         }
       } else {
-        if (!formData.companyName) {
-          validationErrors.companyName = 'El nombre de la empresa es obligatorio';
-        }
-        if (!formData.industry) {
-          validationErrors.industry = 'La industria es obligatoria';
-        }
-        if (!formData.participants) {
-          validationErrors.participants = 'La cantidad de participantes es obligatoria';
-        }
-        if (!formData.country) {
-          validationErrors.country = 'La región es obligatoria';
+        const users = JSON.parse(localStorage.getItem('users') || '[]');
+        const companyExists = users.some(
+          (user) =>
+            user.companyName?.toLowerCase() === formData.companyName?.toLowerCase() &&
+            user.companyDomain?.toLowerCase() === formData.companyDomain?.toLowerCase()
+        );
+        if (companyExists) {
+          validationErrors.companyName = 'Esta empresa ya está registrada. Usa el ID de la empresa para unirte.';
+          validationErrors.companyDomain = 'Este dominio ya está registrado.';
+        } else {
+          if (!formData.companyName) {
+            validationErrors.companyName = 'El nombre de la empresa es obligatorio';
+          }
+          if (!formData.companyDomain) {
+            validationErrors.companyDomain = 'El dominio de la empresa es obligatorio';
+          } else {
+            const sanitizedDomain = formData.companyDomain
+              .toLowerCase()
+              .trim()
+              .replace(/[^a-z0-9.-]/g, '');
+    
+            const domainRegex = /^[a-z0-9-]+(\.[a-z0-9-]+)+$/;
+            if (!domainRegex.test(sanitizedDomain)) {
+              validationErrors.companyDomain = 'El dominio no es válido (ej. upstrategy.com)';
+            } else {
+              handleChange({
+                target: {
+                  name: 'companyDomain',
+                  value: sanitizedDomain,
+                },
+              });
+            }
+          }
+          if (!formData.industry) {
+            validationErrors.industry = 'La industria es obligatoria';
+          }
+          if (!formData.participants) {
+            validationErrors.participants = 'La cantidad de participantes es obligatoria';
+          }
+          if (!formData.country) {
+            validationErrors.country = 'El pais es obligatorio';
+          }
         }
       }
     } else if (step === 2) {
@@ -78,6 +115,12 @@ function SignUpForm({ formData, handleChange, errors, showPassword, togglePasswo
         validationErrors.email = 'El correo es obligatorio';
       } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
         validationErrors.email = 'El correo no es válido';
+      } else if (!formData.usesGenericEmail && formData.companyDomain) {
+        const emailDomain = formData.email.split('@')[1]?.toLowerCase();
+        const companyDomain = formData.companyDomain?.toLowerCase();
+        if (emailDomain !== companyDomain) {
+          validationErrors.email = `El correo debe pertenecer al dominio de la empresa (${companyDomain}) a menos que uses un correo genérico`;
+        }
       }
       if (!formData.password) {
         validationErrors.password = 'La contraseña es obligatoria';
@@ -121,18 +164,14 @@ function SignUpForm({ formData, handleChange, errors, showPassword, togglePasswo
     setStep(step - 1);
   };
 
-  const handleSkip = (e) => {
-    e.preventDefault();
-    onSubmit({ skip: true });
-  };
-
-  const handleFinalSubmit = (e) => {
+  const handleSkipOrFinal = (e) => {
     e.preventDefault();
     const validationErrors = validateStep();
     if (Object.keys(validationErrors).length > 0) {
       onSubmit({ errors: validationErrors });
       return;
     }
+
     onSubmit({ final: true });
   };
 
@@ -191,8 +230,8 @@ function SignUpForm({ formData, handleChange, errors, showPassword, togglePasswo
             <button type="button" className="back-btn" onClick={handleBack}>
               Atrás
             </button>
-            <button type="button" className="next-btn" onClick={handleFinalSubmit}>
-              Saltar / Finalizar
+            <button type="button" className="next-btn" onClick={handleSkipOrFinal}>
+              Saltar/Finalizar
             </button>
           </div>
         </>

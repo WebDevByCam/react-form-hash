@@ -3,7 +3,7 @@ import React from 'react';
 function Step3({ formData, handleChange, errors, days, months, years, countries }) {
   return (
     <>
-      <h3>Paso 3: Completa tu perfil</h3>
+      <h3>Paso 3: Completa tu perfil (opcional)</h3>
       <div className="form-group">
         <label htmlFor="username">
           Usuario o alias

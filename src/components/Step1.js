@@ -3,7 +3,7 @@ import React from 'react';
 function Step1({ formData, handleChange, errors, industries, participantOptions, countries }) {
   return (
     <>
-      <h3>Paso 1: Registra tu empresa o únete a una existente</h3>
+      <h3>Paso 1: Registra tu empresa o únete a una</h3>
       <div className="form-group">
         <label htmlFor="companyId">
           ID de la empresa
@@ -43,6 +43,35 @@ function Step1({ formData, handleChange, errors, industries, participantOptions,
               />
             </div>
             {errors.companyName && <span className="error" id="companyName-error">{errors.companyName}</span>}
+          </div>
+          <div className="form-group">
+            <label htmlFor="companyDomain">
+              Dominio de la Empresa <span className="required">*</span>
+            </label>
+            <div className="input-wrapper">
+              <input
+                type="text"
+                id="companyDomain"
+                name="companyDomain"
+                value={formData.companyDomain || ''}
+                onChange={handleChange}
+                placeholder="Ingresa el dominio (ej. empresa.com)"
+                required
+                aria-describedby="companyDomain-error"
+              />
+            </div>
+            {errors.companyDomain && <span className="error" id="companyDomain-error">{errors.companyDomain}</span>}
+          </div>
+          <div className="form-group center">
+            <label>
+              <input
+                type="checkbox"
+                name="usesGenericEmail"
+                checked={formData.usesGenericEmail || false}
+                onChange={(e) => handleChange({ target: { name: 'usesGenericEmail', value: e.target.checked } })}
+              />
+              Tengo un correo genérico, no empresarial (ej. @gmail.com, @hotmail.com, @yahoo.com en lugar de @upstrategy.com)
+            </label>
           </div>
           <div className="form-group">
             <label htmlFor="industry">
